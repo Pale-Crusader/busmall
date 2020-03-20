@@ -3,7 +3,8 @@
 'use strict';
 
 // Set up an empty cart for use on this page.
-var cart = new Cart([]);
+var cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+var cart = new Cart(cartItems);
 
 // On screen load, we call this method to put all of the busmall options
 // (the things in the Product.allProducts array) into the drop down list.
@@ -28,9 +29,8 @@ function populateForm() {
 function handleSubmit(event) {
   event.preventDefault();
   // TODO: Prevent the page from reloading
-  var quantity = event.target.quantity.value;
   // Do all the things ...
-  addSelectedItemToCart(quantity);
+  addSelectedItemToCart();
   cart.saveToLocalStorage();
   updateCounter();
   updateCartPreview();
@@ -38,22 +38,20 @@ function handleSubmit(event) {
 }
 
 // TODO: Add the selected item and quantity to the cart
-function addSelectedItemToCart(quantity) {
+function addSelectedItemToCart() {
   var selectElement = document.getElementById('items');
+  var quantityEl = document.getElementById('items');
   var selectedValue = selectElement.options[selectElement.selectedIndex].value;
-  for (var i = 0; i < Product.allProducts.length; i++) {
-    if (selectedValue === Product.allProducts[i].name) {
-      var product = Product.allProducts[i].name;
-      var item = new CartItem(product, quantity);
-      cart.items.push(item);
-      console.log(cart.items);
-    }
+  var quantityValue = quantityEl.options[quantityEl.selectedIndex].value;
+
+  cart.addItem(selectedValue, quantityValue);
+  console.log(cart.items);
   }
 
   // TODO: suss out the item picked from the select list
   // TODO: get the quantity
   // TODO: using those, add one item to the Cart
-}
+
 
 // TODO: Update the cart count in the header nav with the number of items in the Cart
 function updateCounter() {
@@ -65,7 +63,7 @@ function updateCartPreview() {
   var cartContentsEl = document.getElementById('cartContents')
   cartContentsEl.innerHTML = '';
   var ulEl = document.createElement('ul');
-  cartContentsEl.appendChild(ulEl);
+   cartContentsEl.appendChild(ulEl);
   for (var i = 0; i < cart.items.length; i++) {
     var liEl = document.createElement('li');
     liEl.textContent = cart.items[i].product + ': ' + cart.items[i].quantity;
