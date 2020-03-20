@@ -1,5 +1,33 @@
 /* TODO: Make it awesome */
+
+header {
+    background-color: rgb(69, 206, 69);
+    height: fit-content;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif ;
+    font-size: xx-large;
+    text-decoration: none;
+    text-align: center;
+    margin-bottom: 20px;
+ }
+header h1 {
+    margin: 20px;
+    font-size: 72px;
+}
+
+header nav {
+    margin: 20px;
+}
+
+header li {
+    margin: 20px;
+}
+
+#itemCount {
+    margin: 20px;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: xx-large;
+}
 #items {
-    padding: 4px;
+    padding: 5px;
     width: 300px;
 }
