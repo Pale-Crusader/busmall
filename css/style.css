@@ -31,3 +31,7 @@ header li {
     padding: 5px;
     width: 300px;
 }
+.cartImgPreview {
+    display: inline-block;
+    height: 100px;
+}

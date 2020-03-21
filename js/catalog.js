@@ -63,11 +63,18 @@ function updateCartPreview() {
   var cartContentsEl = document.getElementById('cartContents')
   cartContentsEl.innerHTML = '';
   var ulEl = document.createElement('ul');
-   cartContentsEl.appendChild(ulEl);
+  cartContentsEl.appendChild(ulEl);
   for (var i = 0; i < cart.items.length; i++) {
     var liEl = document.createElement('li');
     liEl.textContent = cart.items[i].product + ': ' + cart.items[i].quantity;
-    cartContentsEl.appendChild(liEl);
+    ulEl.appendChild(liEl);
+    for (var index = 0; index < Product.allProducts.length; index++)
+      if (cart.items[i].product === Product.allProducts[index].name);
+        var imgEl = document.createElement('img');
+        imgEl.setAttribute('class', 'cartImgPreview');
+        imgEl.setAttribute('alt', cart.items[i].product);
+        imgEl.setAttribute('src', Product.allProducts[index].filePath);
+        cartContentsEl.appendChild(imgEl);
   }
   // TODO: Get the item and quantity from the form
   // TODO: Add a new element to the cartContents div with that information
