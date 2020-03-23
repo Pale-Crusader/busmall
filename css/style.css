@@ -9,6 +9,11 @@ header {
     text-align: center;
     margin-bottom: 20px;
  }
+h3 {
+    margin-top: 50px;
+    font-size: x-large;
+    text-align: center;
+}
 header h1 {
     margin: 20px;
     font-size: 72px;
@@ -31,7 +36,49 @@ header li {
     padding: 5px;
     width: 300px;
 }
+#cartDisplayUlList {
+    width: 300px;
+    float: left;
+}
+.cartDisplayLi {
+    display: inline-block;
+    padding: 5px;
+    margin: 5px;
+    background-color: rgb(69, 206, 69);
+    border-radius: 5px;
+}
 .cartImgPreview {
     display: inline-block;
     height: 100px;
+}
+ol {
+    text-align: center;
+    font-size: xx-large;
+    color: rgb(69, 206, 69);
+}
+#orderFormDsplayArea {
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+#cssAnimation {
+    background-color: rgb(69, 206, 69);
+    height: 300px;
+    color: red;
+    transition-duration: 3s;
+}
+
+#cart {
+    width: 900px;
+    height: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+#cart td {
+    vertical-align: middle;
+}
+footer{
+    margin-top: 50px;
+    text-align: center;
 }

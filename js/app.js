@@ -7,9 +7,9 @@ var Cart = function(items) {
 };
 
 
-Cart.prototype.addItem = function(product, quantity) {
+Cart.prototype.addItem = function(product, quantity, source) {
   // TODO: Fill in this instance method to create a new CartItem and add it to this.items
-    this.items.push(new CartItem(product, quantity));
+    this.items.push(new CartItem(product, quantity, source));
 };
 
 Cart.prototype.saveToLocalStorage = function() {
@@ -19,12 +19,14 @@ Cart.prototype.saveToLocalStorage = function() {
 
 Cart.prototype.removeItem = function(item) {
   // TODO: Fill in this instance method to remove one item from the cart.
+  this.items.splice(item, 1);
   // Note: You will have to decide what kind of parameter to pass in here!
 };
 
-var CartItem = function(product, quantity) {
+var CartItem = function(product, quantity, source) {
   this.product = product;
   this.quantity = quantity;
+  this.source = source;
 };
 
 // Product contructor.
