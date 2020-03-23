@@ -3,7 +3,13 @@
 'use strict';
 
 // Set up an empty cart for use on this page.
-var cart = new Cart([]);
+
+if (localStorage.getItem('cart')) {
+  var cartItems = JSON.parse(localStorage.getItem('cart'));
+} else {
+  var cartItems = [];
+}
+var cart = new Cart(cartItems);
 
 // On screen load, we call this method to put all of the busmall options
 // (the things in the Product.allProducts array) into the drop down list.
@@ -13,12 +19,9 @@ function populateForm() {
         
       var selectElement = document.getElementById('items');
       var optionEl = document.createElement('option');
-      optionEl.setAttribute("value", Product.allProducts[i].name);
+      optionEl.setAttribute('value', Product.allProducts[i].name);
       optionEl.textContent = Product.allProducts[i].name;
       selectElement.appendChild(optionEl);
-      var assetEl = document.createElement('img');
-      assetEl.setAttribute("src", Product.allProducts[i].filePath);
-      optionEl.appendChild(assetEl);
   }
 }
 
@@ -28,39 +31,57 @@ function populateForm() {
 function handleSubmit(event) {
   event.preventDefault();
   // TODO: Prevent the page from reloading
-  var quantity = event.target.quantity.value;
   // Do all the things ...
-  addSelectedItemToCart(quantity);
+  addSelectedItemToCart();
   cart.saveToLocalStorage();
   updateCounter();
   updateCartPreview();
-
+  console.log(cart.items);
 }
 
 // TODO: Add the selected item and quantity to the cart
-function addSelectedItemToCart(quantity) {
-  var selectElement = document.getElementById('items');
-  var selectedValue = selectElement.options[selectElement.selectedIndex].value;
+function addSelectedItemToCart() {
+  var productFormEl = document.getElementById('items');
+  var quantityFormEl = document.getElementById('quantity');
+  var productValue = productFormEl.value;
+  var quantityValue = quantityFormEl.value;
   for (var i = 0; i < Product.allProducts.length; i++) {
-    if (selectedValue === Product.allProducts[i].name) {
-      var product = Product.allProducts[i].name;
-      var item = new CartItem(product, quantity);
-      Cart.addItem
-      console.log(item);
-
+    if (productValue === Product.allProducts[i].name) {
+      var sourceValue = Product.allProducts[i].filePath;
     }
   }
+  cart.addItem(productValue, quantityValue, sourceValue);
+}
 
   // TODO: suss out the item picked from the select list
   // TODO: get the quantity
   // TODO: using those, add one item to the Cart
-}
+
 
 // TODO: Update the cart count in the header nav with the number of items in the Cart
-function updateCounter() {}
+function updateCounter() {
+  var count = document.getElementById('itemCount');
+  count.textContent = cart.items.length;
+}
 
 // TODO: As you add items into the cart, show them (item & quantity) in the cart preview div
 function updateCartPreview() {
+  var cartContentsEl = document.getElementById('cartContents')
+  cartContentsEl.innerHTML = '';
+  var ulEl = document.createElement('ul');
+  ulEl.setAttribute('id', 'cartDisplayUlList');
+  cartContentsEl.appendChild(ulEl);
+  for (var i = 0; i < cart.items.length; i++) {
+    var liEl = document.createElement('li');
+    liEl.setAttribute('class', 'cartDisplayLi');
+    liEl.textContent = cart.items[i].product + ': ' + cart.items[i].quantity;
+    ulEl.appendChild(liEl);
+    var imgEl = document.createElement('img');
+    imgEl.setAttribute('class', 'cartImgPreview');
+    imgEl.setAttribute('alt', cart.items[i].product);
+    imgEl.setAttribute('src', cart.items[i].source);
+    cartContentsEl.appendChild(imgEl);
+  }
   // TODO: Get the item and quantity from the form
   // TODO: Add a new element to the cartContents div with that information
 }
@@ -74,3 +95,10 @@ catalogForm.addEventListener('submit', handleSubmit);
 // Before anything else of value can happen, we need to fill in the select
 // drop down list in the form.
 populateForm();
+// console.log(Product.allProducts.length + ' = Product.allProducts.length');
+// console.log(Product.allProducts[1].filePath + ' = Banana Source? ');
+// console.log(Product.allProducts[1].name + ' = Banana Source? ');
+if (localStorage) {
+  updateCounter();
+  updateCartPreview();
+}
